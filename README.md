@@ -2,19 +2,9 @@
 
 量化分析库，提供数据库连接和信号分析功能。
 
-## 安装
+## 文档
 
-```bash
-pip install git+https://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@github.com/msjmsj/quantduck.git
-```
-
-## 更新代码
-
-当有新版本发布时，可以使用以下命令更新：
-
-```bash
-pip install --upgrade git+https://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@github.com/msjmsj/quantduck.git
-```
+完整文档请访问：[Quantduck Documentation](https://msjmsj.github.io/quantduck/)
 
 ## 基本使用
 
@@ -37,13 +27,17 @@ print(f"最近12小时共有 {len(signals)} 个信号")
 ## 版本管理
 
 ### 版本号格式
+
 版本号采用 `major.minor.patch` 格式：
+
 - major: 重大更新，不兼容的API修改
 - minor: 功能更新，向后兼容的功能添加
 - patch: 补丁更新，向后兼容的问题修复
 
 ### 自动版本更新
+
 项目使用自动版本管理系统：
+
 1. 每次 git commit 时会自动增加 patch 版本号
 2. 版本号会同步更新到以下文件：
    - quantduck/__init__.py
@@ -51,20 +45,10 @@ print(f"最近12小时共有 {len(signals)} 个信号")
    - pyproject.toml
 
 ### 查看当前版本
+
 可以通过以下方式查看当前版本：
+
 ```python
 from quantduck import __version__
 print(__version__)
 ```
-
-## 更新日志
-
-### v0.1.5
-- 优化数据库连接池实现
-- 简化API使用方式
-- 添加自动版本管理
-
-### v0.1.0
-- 初始版本发布
-- 实现基本数据库功能
-- 添加信号分析功能
