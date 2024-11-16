@@ -1,0 +1,13 @@
+# 虚拟环境
+.venv/
+__pycache__/
+*.pyc
+
+# 构建文件
+dist/
+build/
+*.egg-info/
+
+# 测试覆盖率
+.coverage
+htmlcov/
