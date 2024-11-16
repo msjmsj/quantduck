@@ -34,4 +34,20 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 napoleon_preprocess_types = False
 napoleon_type_aliases = None
-napoleon_attr_annotations = True 
+napoleon_attr_annotations = True
+
+# 在现有配置后添加
+html_theme_options = {
+    'display_version': True,
+    'style_external_links': True,
+    'navigation_depth': 4,
+}
+
+# 支持 markdown 文件
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'markdown',
+}
+
+# 添加自定义域名支持（如果有的话）
+# html_baseurl = 'https://your-domain.com' 
