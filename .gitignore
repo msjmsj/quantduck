@@ -35,7 +35,6 @@ ENV/
 .coverage
 htmlcov/
 .pytest_cache/
-
 # Distribution
 dist/
 build/
