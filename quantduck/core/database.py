@@ -71,8 +71,24 @@ class PostgreSQLDatabase(DatabaseInterface):
         finally:
             self.pool.putconn(conn)
     
-    def get_recent_signals(self, hours: int = 24) -> List[Dict[str, Any]]:
-        """获取最近指定小时数的信号数据，使用中国时区"""
+    def get_recent_signals(self, hours: int = 24) -> List[Dict]:
+        """获取最近的信号数据。
+
+        Args:
+            hours (int): 获取多少小时内的信号，默认24小时
+
+        Returns:
+            List[Dict]: 信号列表，每个信号包含以下字段：
+                - token: 代币地址
+                - timestamp: 信号时间
+                - type: 信号类型
+                - ...
+
+        Examples:
+            >>> db = get_db()
+            >>> signals = db.get_recent_signals(hours=12)
+            >>> print(len(signals))
+        """
         sql = f"""
             SELECT *
             FROM signal_summary
