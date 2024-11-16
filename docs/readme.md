@@ -2,10 +2,15 @@
 
 欢迎使用 Quantduck 量化分析库！
 
+![Version](https://img.shields.io/badge/version-{current_version}-blue)
+
 ## 快速开始
 
 ```python
 from quantduck.core.database import get_db
+from quantduck import __version__
+
+print(f"当前版本: {__version__}")
 
 # 获取数据库实例
 db = get_db()

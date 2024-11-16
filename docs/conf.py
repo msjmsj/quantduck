@@ -2,9 +2,16 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
+# 导入版本号
+from quantduck import __version__
+
 project = 'Quantduck'
 copyright = '2024'
 author = 'Quantduck Team'
+
+# 添加版本信息
+version = __version__
+release = __version__
 
 extensions = [
     'sphinx.ext.autodoc',
