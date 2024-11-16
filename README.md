@@ -6,6 +6,20 @@
 
 完整文档请访问：[Quantduck Documentation](https://msjmsj.github.io/quantduck/)
 
+## 安装
+
+```bash
+pip install git+https://github.com/msjmsj/quantduck.git
+```
+
+## 更新代码
+
+当有新版本发布时，可以使用以下命令更新：
+
+```bash
+pip install --upgrade git+https://github.com/msjmsj/quantduck.git
+```
+
 ## 基本使用
 
 ```python
