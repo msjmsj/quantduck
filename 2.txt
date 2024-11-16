@@ -1,0 +1,219 @@
+(myproject-2411161543-py3.12) C:\mm\python\projects\myproject_2411161543>pip install --upgrade git+https://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@github.com/msjmsj/quantduck.git        
+Collecting git+https://****@github.com/msjmsj/quantduck.git
+  Cloning https://****@github.com/msjmsj/quantduck.git to c:\users\yanre\appdata\local\temp\pip-req-build-6ifygeob
+  Running command git clone --filter=blob:none --quiet 'https://****@github.com/msjmsj/quantduck.git' 'C:\Users\yanre\AppData\Local\Temp\pip-req-build-6ifygeob'
+  Resolved https://****@github.com/msjmsj/quantduck.git to commit 9cd24fe8d451db92609fd683cc83adb0498d3a8e
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Requirement already satisfied: psycopg2-binary in c:\users\yanre\appdata\local\pypoetry\cache\virtualenvs\myproject-2411161543-agfijsmr-py3.12\lib\site-packages (from quantduck==0.1.0) (2.9.10)
+Requirement already satisfied: pytz in c:\users\yanre\appdata\local\pypoetry\cache\virtualenvs\myproject-2411161543-agfijsmr-py3.12\lib\site-packages (from quantduck==0.1.0) (2024.2)     
+Requirement already satisfied: pandas in c:\users\yanre\appdata\local\pypoetry\cache\virtualenvs\myproject-2411161543-agfijsmr-py3.12\lib\site-packages (from quantduck==0.1.0) (2.2.3)    
+Requirement already satisfied: numpy>=1.26.0 in c:\users\yanre\appdata\local\pypoetry\cache\virtualenvs\myproject-2411161543-agfijsmr-py3.12\lib\site-packages (from pandas->quantduck==0.1.0) (2.1.3)
+Requirement already satisfied: python-dateutil>=2.8.2 in c:\users\yanre\appdata\local\pypoetry\cache\virtualenvs\myproject-2411161543-agfijsmr-py3.12\lib\site-packages (from pandas->quantduck==0.1.0) (2.9.0.post0)
+Requirement already satisfied: tzdata>=2022.7 in c:\users\yanre\appdata\local\pypoetry\cache\virtualenvs\myproject-2411161543-agfijsmr-py3.12\lib\site-packages (from pandas->quantduck==0.1.0) (2024.2)
+Requirement already satisfied: six>=1.5 in c:\users\yanre\appdata\local\pypoetry\cache\virtualenvs\myproject-2411161543-agfijsmr-py3.12\lib\site-packages (from python-dateutil>=2.8.2->pandas->quantduck==0.1.0) (1.16.0)
+Building wheels for collected packages: quantduck
+  Building wheel for quantduck (pyproject.toml) ... done
+  Created wheel for quantduck: filename=quantduck-0.1.0-py3-none-any.whl size=6957 sha256=8295202ad46c97ae5a6ae3a7d14e545fb2d5888b96ac95003d9107341123ad27
+  Stored in directory: C:\Users\yanre\AppData\Local\Temp\pip-ephem-wheel-cache-ima7izrx\wheels\02\f9\6d\d74955a033bae0e3e62195ce9ef1ce3e7fa8d2f34b2226aa30
+Successfully built quantduck
+Installing collected packages: quantduck
+  Attempting uninstall: quantduck
+    Found existing installation: quantduck 0.0.2
+    Uninstalling quantduck-0.0.2:
+      Successfully uninstalled quantduck-0.0.2
+Successfully installed quantduck-0.1.0
+
+(myproject-2411161543-py3.12) C:\mm\python\projects\myproject_2411161543>C:/Users/yanre/AppData/Local/pypoetry/Cache/virtualenvs/myproject-2411161543-agfIjsmr-py3.12/Scripts/python.exe c:/mm/python/projects/myproject_2411161543/test.py
+0.1.0
+Token 0xd43fba1f38d9b306aeef9d78ad177d51ef802b46 在最近24小时内存在
+
+最近 261 个信号
+
+最新的3个信号:
+
+时间: 2024-11-17 01:30:53
+Token地址: 0x43d7e65b8ff49698d9550a7f315c87e67344fb59
+id: 3943
+source: cmc_eth
+platform: ETH
+dex_info: None
+
+时间: 2024-11-17 01:30:53
+Token地址: 0x8ccd897ca6160ed76755383b201c1948394328c7
+id: 3942
+source: cmc_eth
+platform: ETH
+dex_info: None
+
+时间: 2024-11-17 01:30:53
+Token地址: 0xbc391E78B0EA0d1Db04890732742494e7FBFc118
+id: 3941
+source: cmc_eth
+platform: ETH
+dex_info: None
+
+(myproject-2411161543-py3.12) C:\mm\python\projects\myproject_2411161543>pip install --upgrade git+https://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@github.com/msjmsj/quantduck.git        
+Collecting git+https://****@github.com/msjmsj/quantduck.git
+  Cloning https://****@github.com/msjmsj/quantduck.git to c:\users\yanre\appdata\local\temp\pip-req-build-3e47r38_
+  Running command git clone --filter=blob:none --quiet 'https://****@github.com/msjmsj/quantduck.git' 'C:\Users\yanre\AppData\Local\Temp\pip-req-build-3e47r38_'
+  Resolved https://****@github.com/msjmsj/quantduck.git to commit f7ebc227958ca57ea8ddc182ca70ba04c0a62e6f
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... error
+  error: subprocess-exited-with-error
+
+  × Getting requirements to build wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [18 lines of output]
+      Traceback (most recent call last):
+        File "C:\Users\yanre\AppData\Local\pypoetry\Cache\virtualenvs\myproject-2411161543-agfIjsmr-py3.12\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 353, in <module>
+          main()
+        File "C:\Users\yanre\AppData\Local\pypoetry\Cache\virtualenvs\myproject-2411161543-agfIjsmr-py3.12\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 335, in main
+          json_out['return_val'] = hook(**hook_input['kwargs'])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\yanre\AppData\Local\pypoetry\Cache\virtualenvs\myproject-2411161543-agfIjsmr-py3.12\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 118, in get_requires_for_build_wheel
+          return hook(config_settings)
+                 ^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-hwh004w5\overlay\Lib\site-packages\setuptools\build_meta.py", line 334, in get_requires_for_build_wheel
+          return self._get_build_requires(config_settings, requirements=[])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-hwh004w5\overlay\Lib\site-packages\setuptools\build_meta.py", line 304, in _get_build_requires
+          self.run_setup()
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-hwh004w5\overlay\Lib\site-packages\setuptools\build_meta.py", line 320, in run_setup
+          exec(code, locals())
+        File "<string>", line 15, in <module>
+      UnicodeDecodeError: 'gbk' codec can't decode byte 0x82 in position 77: illegal multibyte sequence
+      [end of output]
+
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: subprocess-exited-with-error
+
+× Getting requirements to build wheel did not run successfully.
+│ exit code: 1
+╰─> See above for output.
+
+note: This error originates from a subprocess, and is likely not a problem with pip.
+
+(myproject-2411161543-py3.12) C:\mm\python\projects\myproject_2411161543>pip install --upgrade git+https://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@github.com/msjmsj/quantduck.git
+Collecting git+https://****@github.com/msjmsj/quantduck.git
+  Cloning https://****@github.com/msjmsj/quantduck.git to c:\users\yanre\appdata\local\temp\pip-req-build-9xan79ex
+  Running command git clone --filter=blob:none --quiet 'https://****@github.com/msjmsj/quantduck.git' 'C:\Users\yanre\AppData\Local\Temp\pip-req-build-9xan79ex'
+  Resolved https://****@github.com/msjmsj/quantduck.git to commit cf15e237056c173ee8f35d2408d08c7cbf5f1239
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... error
+  error: subprocess-exited-with-error
+
+  × Getting requirements to build wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [100 lines of output]
+      C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\config\_apply_pyprojecttoml.py:72: _MissingDynamic: `readme` defined outside of `pyproject.toml` is ignored.
+      !!
+
+              ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `readme = 'Quantduck - A quantitative analysis library'`
+
+              According to the spec (see the link below), however, setuptools CANNOT
+              consider this value unless `readme` is listed as `dynamic`.
+
+              https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `readme` under `dynamic` or alternatively
+              remove the `[project]` table from your file and rely entirely on other means of
+              configuration.
+              ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\config\_apply_pyprojecttoml.py:72: _MissingDynamic: `authors` defined outside of `pyproject.toml` is ignored.
+      !!
+
+              ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `authors = 'Your Name'`
+
+              According to the spec (see the link below), however, setuptools CANNOT
+              consider this value unless `authors` is listed as `dynamic`.
+
+              https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `authors` under `dynamic` or alternatively
+              remove the `[project]` table from your file and rely entirely on other means of
+              configuration.
+              ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\config\_apply_pyprojecttoml.py:72: _MissingDynamic: `classifiers` defined outside of `pyproject.toml` is ignored.
+      !!
+
+              ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `classifiers = ['Programming Language :: Python :: 3', 'License :: OSI Approved :: MIT License', 'Operating System :: OS Independent']`
+
+              According to the spec (see the link below), however, setuptools CANNOT
+              consider this value unless `classifiers` is listed as `dynamic`.
+
+              https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `classifiers` under `dynamic` or alternatively
+              remove the `[project]` table from your file and rely entirely on other means of
+              configuration.
+              ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\config\_apply_pyprojecttoml.py:79: SetuptoolsWarning: `install_requires` overwritten in `pyproject.toml` (dependencies)
+        corresp(dist, value, root_dir)
+      Traceback (most recent call last):
+        File "C:\Users\yanre\AppData\Local\pypoetry\Cache\virtualenvs\myproject-2411161543-agfIjsmr-py3.12\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 353, in <module>
+          main()
+        File "C:\Users\yanre\AppData\Local\pypoetry\Cache\virtualenvs\myproject-2411161543-agfIjsmr-py3.12\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 335, in main
+          json_out['return_val'] = hook(**hook_input['kwargs'])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\yanre\AppData\Local\pypoetry\Cache\virtualenvs\myproject-2411161543-agfIjsmr-py3.12\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 118, in get_requires_for_build_wheel
+          return hook(config_settings)
+                 ^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\build_meta.py", line 334, in get_requires_for_build_wheel
+          return self._get_build_requires(config_settings, requirements=[])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\build_meta.py", line 304, in _get_build_requires
+          self.run_setup()
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\build_meta.py", line 320, in run_setup
+          exec(code, locals())
+        File "<string>", line 3, in <module>
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\__init__.py", line 117, in setup
+          return distutils.core.setup(**attrs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\_distutils\core.py", line 157, in setup
+          dist.parse_config_files()
+        File "C:\Users\yanre\AppData\Local\pypoetry\Cache\virtualenvs\myproject-2411161543-agfIjsmr-py3.12\Lib\site-packages\_virtualenv.py", line 22, in parse_config_files
+          result = old_parse_config_files(self, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\dist.py", line 648, in parse_config_files
+          pyprojecttoml.apply_configuration(self, filename, ignore_option_errors)
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\config\pyprojecttoml.py", line 73, in apply_configuration
+          return _apply(dist, config, filepath)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\config\_apply_pyprojecttoml.py", line 53, in apply
+          _apply_project_table(dist, config, root_dir)
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\config\_apply_pyprojecttoml.py", line 79, in _apply_project_table
+          corresp(dist, value, root_dir)
+        File "C:\Users\yanre\AppData\Local\Temp\pip-build-env-ehtdl8a5\overlay\Lib\site-packages\setuptools\config\_apply_pyprojecttoml.py", line 164, in _long_description
+          file = val.get("file") or ()
+                 ^^^^^^^
+      AttributeError: 'NoneType' object has no attribute 'get'
+      [end of output]
+
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: subprocess-exited-with-error
+
+× Getting requirements to build wheel did not run successfully.
+│ exit code: 1
+╰─> See above for output.
+
+note: This error originates from a subprocess, and is likely not a problem with pip.
