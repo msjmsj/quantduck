@@ -8,7 +8,14 @@
 pip install git+https://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@github.com/msjmsj/quantduck.git
 ```
 
+## 更新代码
+
+`pip install --upgrade git+https://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@github.com/msjmsj/quantduck.git`
+
+
+
 ## 版本说明
+
 版本号格式：major.minor.patch
 
 - major: 重大更新
