@@ -124,6 +124,144 @@ class PostgreSQLDatabase(DatabaseInterface):
         result = self.query(sql)
         return bool(result and result[0]['count'] > 0)
 
+    def check_and_insert_signal(self, token_address: str, source: str) -> bool:
+        """检查代币是否在最近24小时内出现过，如果没有则插入新的信号记录。
+
+        Args:
+            token_address (str): 代币地址
+            source (str): 信号来源
+
+        Returns:
+            bool: 如果成功插入新记录返回True，如果代币已存在返回False
+
+        Examples:
+            >>> db = get_db()
+            >>> success = db.check_and_insert_signal("0x123...", "dex_scan")
+        """
+        # 检查代币是否在最近24小时内出现过
+        if self.check_token_in_recent_signals(token_address):
+            return False
+        
+        # 使用当前中国时间
+        detected_time = datetime.now(self.CN_TIMEZONE)
+            
+        sql = """
+            INSERT INTO signal_summary (token_address, source, detected_time)
+            VALUES (%s, %s, %s)
+        """
+        
+        conn = self.pool.getconn()
+        try:
+            with conn.cursor() as cursor:
+                cursor.execute(sql, (token_address, source, detected_time))
+            conn.commit()
+            return True
+        except Exception as e:
+            conn.rollback()
+            raise e
+        finally:
+            self.pool.putconn(conn)
+
+    def check_token_in_digestchain(self, token_address: str) -> bool:
+        """检查代币是否存在于 digestchain 表中
+
+        Args:
+            token_address (str): 代币地址
+
+        Returns:
+            bool: 如果代币存在返回 True，否则返回 False
+        """
+        sql = """
+            SELECT COUNT(*) as count 
+            FROM digestchain 
+            WHERE address = %s
+        """
+        
+        result = self.query(sql)
+        return bool(result and result[0]['count'] > 0)
+
+    def insert_token_to_digestchain(self, token_address: str, source: str) -> bool:
+        """将代币插入到 digestchain 表中
+
+        Args:
+            token_address (str): 代币地址
+            source (str): 来源
+
+        Returns:
+            bool: 插入成功返回 True
+        """
+        current_time = datetime.now(self.CN_TIMEZONE)
+        sql = """
+            INSERT INTO digestchain (address, update_time, source)
+            VALUES (%s, %s, %s)
+        """
+        
+        conn = self.pool.getconn()
+        try:
+            with conn.cursor() as cursor:
+                cursor.execute(sql, (token_address, current_time, source))
+            conn.commit()
+            return True
+        except Exception as e:
+            conn.rollback()
+            raise e
+        finally:
+            self.pool.putconn(conn)
+
+    def process_new_token(self, token_address: str, source: str) -> dict:
+        """综合处理新代币的完整流程
+        
+        1. 检查并插入到 signal_summary 表
+        2. 检查并插入到 digestchain 表
+        
+        Args:
+            token_address (str): 代币地址
+            source (str): 信号来源
+            
+        Returns:
+            dict: 处理结果
+            {
+                'signal_added': bool,  # 是否添加了新信号
+                'digest_added': bool,  # 是否添加到 digestchain
+                'message': str        # 处理结果描述
+            }
+        """
+        result = {
+            'signal_added': False,
+            'digest_added': False,
+            'message': ''
+        }
+        
+        try:
+            # 检查并插入信号
+            signal_added = self.check_and_insert_signal(token_address, source)
+            result['signal_added'] = signal_added
+            
+            # 检查并插入 digestchain
+            if not self.check_token_in_digestchain(token_address):
+                self.insert_token_to_digestchain(token_address, source)
+                result['digest_added'] = True
+                
+            # 生成结果消息
+            messages = []
+            if signal_added:
+                messages.append("新信号已添加")
+            else:
+                messages.append("代币在最近24小时内已存在")
+                
+            if result['digest_added']:
+                messages.append("代币已添加到 digestchain")
+            else:
+                messages.append("代币已存在于 digestchain")
+                
+            result['message'] = '；'.join(messages)
+            
+        except Exception as e:
+            result['message'] = f"处理过程中发生错误: {str(e)}"
+            raise
+            
+        return result
+
 # 全局数据库实例
 _db_instance: Optional[DatabaseInterface] = None
 
