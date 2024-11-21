@@ -6,21 +6,21 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API Documentation &mdash; Quantduck  documentation</title>
+  <title>API Documentation &mdash; Quantduck 0.1.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/documentation_options.js?v=8d02545a"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Examples" href="examples.html" />
-    <link rel="prev" title="Welcome to Quantduck’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Quantduck 文档" href="readme.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,6 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Quantduck 文档</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-quantduck.core.database">Database</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#quantduck.core.database.DatabaseInterface"><code class="docutils literal notranslate"><span class="pre">DatabaseInterface</span></code></a><ul>
@@ -51,8 +52,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#quantduck.core.database.PostgreSQLDatabase"><code class="docutils literal notranslate"><span class="pre">PostgreSQLDatabase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#quantduck.core.database.PostgreSQLDatabase.check_and_insert_signal"><code class="docutils literal notranslate"><span class="pre">PostgreSQLDatabase.check_and_insert_signal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quantduck.core.database.PostgreSQLDatabase.check_token_in_digestchain"><code class="docutils literal notranslate"><span class="pre">PostgreSQLDatabase.check_token_in_digestchain()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#quantduck.core.database.PostgreSQLDatabase.check_token_in_recent_signals"><code class="docutils literal notranslate"><span class="pre">PostgreSQLDatabase.check_token_in_recent_signals()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#quantduck.core.database.PostgreSQLDatabase.get_recent_signals"><code class="docutils literal notranslate"><span class="pre">PostgreSQLDatabase.get_recent_signals()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quantduck.core.database.PostgreSQLDatabase.insert_token_to_digestchain"><code class="docutils literal notranslate"><span class="pre">PostgreSQLDatabase.insert_token_to_digestchain()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quantduck.core.database.PostgreSQLDatabase.process_new_token"><code class="docutils literal notranslate"><span class="pre">PostgreSQLDatabase.process_new_token()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#quantduck.core.database.PostgreSQLDatabase.query"><code class="docutils literal notranslate"><span class="pre">PostgreSQLDatabase.query()</span></code></a></li>
 </ul>
 </li>
@@ -75,7 +80,7 @@
       </nav>
 
       <div class="wy-nav-content">
-        <div class="rst-content">
+        <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
@@ -112,6 +117,48 @@
 <dd><p>Bases: <a class="reference internal" href="#quantduck.core.database.DatabaseInterface" title="quantduck.core.database.DatabaseInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">DatabaseInterface</span></code></a></p>
 <p>PostgreSQL数据库实现</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="quantduck.core.database.PostgreSQLDatabase.check_and_insert_signal">
+<span class="sig-name descname"><span class="pre">check_and_insert_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/quantduck/core/database.html#PostgreSQLDatabase.check_and_insert_signal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quantduck.core.database.PostgreSQLDatabase.check_and_insert_signal" title="Link to this definition"></a></dt>
+<dd><p>检查代币是否在最近24小时内出现过，如果没有则插入新的信号记录。</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token_address</strong> (<em>str</em>) – 代币地址</p></li>
+<li><p><strong>source</strong> (<em>str</em>) – 信号来源</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>如果成功插入新记录返回True，如果代币已存在返回False</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">success</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">check_and_insert_signal</span><span class="p">(</span><span class="s2">&quot;0x123...&quot;</span><span class="p">,</span> <span class="s2">&quot;dex_scan&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quantduck.core.database.PostgreSQLDatabase.check_token_in_digestchain">
+<span class="sig-name descname"><span class="pre">check_token_in_digestchain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/quantduck/core/database.html#PostgreSQLDatabase.check_token_in_digestchain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quantduck.core.database.PostgreSQLDatabase.check_token_in_digestchain" title="Link to this definition"></a></dt>
+<dd><p>检查代币是否存在于 digestchain 表中</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>token_address</strong> (<em>str</em>) – 代币地址</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>如果代币存在返回 True，否则返回 False</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="quantduck.core.database.PostgreSQLDatabase.check_token_in_recent_signals">
 <span class="sig-name descname"><span class="pre">check_token_in_recent_signals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hours</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">24</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/quantduck/core/database.html#PostgreSQLDatabase.check_token_in_recent_signals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quantduck.core.database.PostgreSQLDatabase.check_token_in_recent_signals" title="Link to this definition"></a></dt>
 <dd><p>检查指定的 token_address 在最近指定小时数内是否出现在信号数据中</p>
@@ -133,8 +180,86 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="quantduck.core.database.PostgreSQLDatabase.get_recent_signals">
-<span class="sig-name descname"><span class="pre">get_recent_signals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hours</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">24</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/quantduck/core/database.html#PostgreSQLDatabase.get_recent_signals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quantduck.core.database.PostgreSQLDatabase.get_recent_signals" title="Link to this definition"></a></dt>
-<dd><p>获取最近指定小时数的信号数据，使用中国时区</p>
+<span class="sig-name descname"><span class="pre">get_recent_signals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hours</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">24</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/quantduck/core/database.html#PostgreSQLDatabase.get_recent_signals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quantduck.core.database.PostgreSQLDatabase.get_recent_signals" title="Link to this definition"></a></dt>
+<dd><p>获取最近的信号数据。</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>hours</strong> (<em>int</em>) – 获取多少小时内的信号，默认24小时</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>信号列表，每个信号包含以下字段：</dt><dd><ul class="simple">
+<li><p>token: 代币地址</p></li>
+<li><p>timestamp: 信号时间</p></li>
+<li><p>type: 信号类型</p></li>
+<li><p>…</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Dict]</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signals</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_recent_signals</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">signals</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quantduck.core.database.PostgreSQLDatabase.insert_token_to_digestchain">
+<span class="sig-name descname"><span class="pre">insert_token_to_digestchain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/quantduck/core/database.html#PostgreSQLDatabase.insert_token_to_digestchain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quantduck.core.database.PostgreSQLDatabase.insert_token_to_digestchain" title="Link to this definition"></a></dt>
+<dd><p>将代币插入到 digestchain 表中</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token_address</strong> (<em>str</em>) – 代币地址</p></li>
+<li><p><strong>source</strong> (<em>str</em>) – 来源</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>插入成功返回 True</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quantduck.core.database.PostgreSQLDatabase.process_new_token">
+<span class="sig-name descname"><span class="pre">process_new_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/quantduck/core/database.html#PostgreSQLDatabase.process_new_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quantduck.core.database.PostgreSQLDatabase.process_new_token" title="Link to this definition"></a></dt>
+<dd><p>综合处理新代币的完整流程</p>
+<ol class="arabic simple">
+<li><p>检查并插入到 signal_summary 表</p></li>
+<li><p>检查并插入到 digestchain 表</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token_address</strong> (<em>str</em>) – 代币地址</p></li>
+<li><p><strong>source</strong> (<em>str</em>) – 信号来源</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>处理结果
+{</p>
+<blockquote>
+<div><p>’signal_added’: bool,  # 是否添加了新信号
+‘digest_added’: bool,  # 是否添加到 digestchain
+‘message’: str        # 处理结果描述</p>
+</div></blockquote>
+<p>}</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -161,7 +286,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Quantduck’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="readme.html" class="btn btn-neutral float-left" title="Quantduck 文档" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

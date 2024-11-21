@@ -1,6 +1,8 @@
 Welcome to Quantduck's documentation!
 ===================================
 
+Version: |version|
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>quantduck.core.database &mdash; Quantduck  documentation</title>
+  <title>quantduck.core.database &mdash; Quantduck 0.1.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/documentation_options.js?v=8d02545a"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -41,6 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Quantduck 文档</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
 </ul>
@@ -55,7 +56,7 @@
       </nav>
 
       <div class="wy-nav-content">
-        <div class="rst-content">
+        <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
@@ -156,8 +157,24 @@
     
 <div class="viewcode-block" id="PostgreSQLDatabase.get_recent_signals">
 <a class="viewcode-back" href="../../../api.html#quantduck.core.database.PostgreSQLDatabase.get_recent_signals">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_recent_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hours</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">24</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取最近指定小时数的信号数据，使用中国时区&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">get_recent_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hours</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">24</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取最近的信号数据。</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            hours (int): 获取多少小时内的信号，默认24小时</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Dict]: 信号列表，每个信号包含以下字段：</span>
+<span class="sd">                - token: 代币地址</span>
+<span class="sd">                - timestamp: 信号时间</span>
+<span class="sd">                - type: 信号类型</span>
+<span class="sd">                - ...</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; db = get_db()</span>
+<span class="sd">            &gt;&gt;&gt; signals = db.get_recent_signals(hours=12)</span>
+<span class="sd">            &gt;&gt;&gt; print(len(signals))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            SELECT *</span>
 <span class="s2">            FROM signal_summary</span>
@@ -195,6 +212,156 @@
         
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">result</span> <span class="ow">and</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PostgreSQLDatabase.check_and_insert_signal">
+<a class="viewcode-back" href="../../../api.html#quantduck.core.database.PostgreSQLDatabase.check_and_insert_signal">[docs]</a>
+    <span class="k">def</span> <span class="nf">check_and_insert_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;检查代币是否在最近24小时内出现过，如果没有则插入新的信号记录。</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            token_address (str): 代币地址</span>
+<span class="sd">            source (str): 信号来源</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 如果成功插入新记录返回True，如果代币已存在返回False</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; db = get_db()</span>
+<span class="sd">            &gt;&gt;&gt; success = db.check_and_insert_signal(&quot;0x123...&quot;, &quot;dex_scan&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 检查代币是否在最近24小时内出现过</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_token_in_recent_signals</span><span class="p">(</span><span class="n">token_address</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="c1"># 使用当前中国时间</span>
+        <span class="n">detected_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CN_TIMEZONE</span><span class="p">)</span>
+            
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            INSERT INTO signal_summary (token_address, source, detected_time)</span>
+<span class="s2">            VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        
+        <span class="n">conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">getconn</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="p">(</span><span class="n">token_address</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">detected_time</span><span class="p">))</span>
+            <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">putconn</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PostgreSQLDatabase.check_token_in_digestchain">
+<a class="viewcode-back" href="../../../api.html#quantduck.core.database.PostgreSQLDatabase.check_token_in_digestchain">[docs]</a>
+    <span class="k">def</span> <span class="nf">check_token_in_digestchain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;检查代币是否存在于 digestchain 表中</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            token_address (str): 代币地址</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 如果代币存在返回 True，否则返回 False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT COUNT(*) as count </span>
+<span class="s2">            FROM digestchain </span>
+<span class="s2">            WHERE address = </span><span class="si">%s</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">result</span> <span class="ow">and</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PostgreSQLDatabase.insert_token_to_digestchain">
+<a class="viewcode-back" href="../../../api.html#quantduck.core.database.PostgreSQLDatabase.insert_token_to_digestchain">[docs]</a>
+    <span class="k">def</span> <span class="nf">insert_token_to_digestchain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;将代币插入到 digestchain 表中</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            token_address (str): 代币地址</span>
+<span class="sd">            source (str): 来源</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: 插入成功返回 True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CN_TIMEZONE</span><span class="p">)</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            INSERT INTO digestchain (address, update_time, source)</span>
+<span class="s2">            VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        
+        <span class="n">conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">getconn</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="p">(</span><span class="n">token_address</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="n">source</span><span class="p">))</span>
+            <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">putconn</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PostgreSQLDatabase.process_new_token">
+<a class="viewcode-back" href="../../../api.html#quantduck.core.database.PostgreSQLDatabase.process_new_token">[docs]</a>
+    <span class="k">def</span> <span class="nf">process_new_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;综合处理新代币的完整流程</span>
+<span class="sd">        </span>
+<span class="sd">        1. 检查并插入到 signal_summary 表</span>
+<span class="sd">        2. 检查并插入到 digestchain 表</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            token_address (str): 代币地址</span>
+<span class="sd">            source (str): 信号来源</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: 处理结果</span>
+<span class="sd">            {</span>
+<span class="sd">                &#39;signal_added&#39;: bool,  # 是否添加了新信号</span>
+<span class="sd">                &#39;digest_added&#39;: bool,  # 是否添加到 digestchain</span>
+<span class="sd">                &#39;message&#39;: str        # 处理结果描述</span>
+<span class="sd">            }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;signal_added&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;digest_added&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+        <span class="p">}</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 检查并插入信号</span>
+            <span class="n">signal_added</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_and_insert_signal</span><span class="p">(</span><span class="n">token_address</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;signal_added&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal_added</span>
+            
+            <span class="c1"># 检查并插入 digestchain</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_token_in_digestchain</span><span class="p">(</span><span class="n">token_address</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">insert_token_to_digestchain</span><span class="p">(</span><span class="n">token_address</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+                <span class="n">result</span><span class="p">[</span><span class="s1">&#39;digest_added&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                
+            <span class="c1"># 生成结果消息</span>
+            <span class="n">messages</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="n">signal_added</span><span class="p">:</span>
+                <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;新信号已添加&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;代币在最近24小时内已存在&quot;</span><span class="p">)</span>
+                
+            <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;digest_added&#39;</span><span class="p">]:</span>
+                <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;代币已添加到 digestchain&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;代币已存在于 digestchain&quot;</span><span class="p">)</span>
+                
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;；&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;处理过程中发生错误: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">raise</span>
+            
+        <span class="k">return</span> <span class="n">result</span></div>
 </div>
 
 
