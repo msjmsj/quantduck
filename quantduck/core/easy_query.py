@@ -189,6 +189,30 @@ class EasyQuery:
         """
         results = self.execute_update(sql, (notes, id))
         return results[0] if results else None
+    def update_technical_status(self, id: int, status: str) -> Optional[Dict[str, Any]]:
+        """更新指定ID的technical_notes
+        
+        Args:
+            id (int): 记录ID
+            notes (str): 技术分析内容
+            
+        Returns:
+            Optional[Dict[str, Any]]: 更新后的记录，如果更新失败返回None
+            
+        Example:
+            >>> db = EasyQuery()
+            >>> result = db.update_technical_status(4696, "技术分析内容")
+            >>> if result:
+            ...     print(f"Updated record {result['id']}")
+        """
+        sql = """
+            UPDATE public.signal_summary 
+            SET technical_status = %s
+            WHERE id = %s
+            RETURNING id, technical_status;
+        """
+        results = self.execute_update(sql, (status, id))
+        return results[0] if results else None
 
 # 使用示例
 if __name__ == "__main__":
@@ -213,12 +237,21 @@ if __name__ == "__main__":
             print("Token exists in digestchain")
             
         # 测试更新 technical_notes
-        test_id = 4696
+        test_id = 5522
         test_notes = "技术分析内容2"
         update_result = db.update_technical_notes(test_id, test_notes)
         if update_result:
             print(f"Successfully updated technical notes for ID {update_result['id']}")
             print(f"New notes: {update_result['technical_notes']}")
+        else:
+            print(f"No record found with ID {test_id}")
+        # 测试更新 technical_status
+        test_id = 5522
+        test_status = "流动性分析"
+        update_result = db.update_technical_status(test_id, test_status)
+        if update_result:
+            print(f"Successfully updated technical status for ID {update_result['id']}")
+            print(f"New status: {update_result['technical_status']}")
         else:
             print(f"No record found with ID {test_id}")
             
