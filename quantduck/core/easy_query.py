@@ -213,6 +213,30 @@ class EasyQuery:
         """
         results = self.execute_update(sql, (status, id))
         return results[0] if results else None
+    def update_price(self, id: int, price: str) -> Optional[Dict[str, Any]]:
+        """更新指定ID的price
+        
+        Args:
+            id (int): 记录ID
+            price (str): 价格字符串，支持高精度数值
+                
+        Returns:
+            Optional[Dict[str, Any]]: 更新后的记录，如果更新失败返回None
+            
+        Example:
+            >>> db = EasyQuery()
+            >>> result = db.update_price(4696, "123.45678901234567890")
+            >>> if result:
+            ...     print(f"Updated price for record {result['id']}")
+        """
+        sql = """
+            UPDATE public.signal_summary 
+            SET price = %s::numeric
+            WHERE id = %s
+            RETURNING id, price;
+        """
+        results = self.execute_update(sql, (price, id))
+        return results[0] if results else None
 
 # 使用示例
 if __name__ == "__main__":
@@ -236,8 +260,10 @@ if __name__ == "__main__":
         if token_info.first():
             print("Token exists in digestchain")
             
+            
+            
         # 测试更新 technical_notes
-        test_id = 5522
+        test_id = 5883
         test_notes = "技术分析内容2"
         update_result = db.update_technical_notes(test_id, test_notes)
         if update_result:
@@ -246,7 +272,7 @@ if __name__ == "__main__":
         else:
             print(f"No record found with ID {test_id}")
         # 测试更新 technical_status
-        test_id = 5522
+        test_id = 5883
         test_status = "流动性分析"
         update_result = db.update_technical_status(test_id, test_status)
         if update_result:
@@ -254,6 +280,14 @@ if __name__ == "__main__":
             print(f"New status: {update_result['technical_status']}")
         else:
             print(f"No record found with ID {test_id}")
+        
+        # 测试更新 price
+        test_id = 5883
+        test_price = "123.45678901234567890"
+        update_result = db.update_price(test_id, test_price)
+        if update_result:
+            print(f"Successfully updated price for ID {update_result['id']}")
+            print(f"New price: {update_result['price']}")
             
     finally:
         db.close() 

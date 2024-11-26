@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="quantduck",
-    version="0.1.15",
+    version="0.1.16",
     packages=find_packages(),
     install_requires=[
         "psycopg2-binary",
