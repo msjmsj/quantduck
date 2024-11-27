@@ -237,6 +237,60 @@ class EasyQuery:
         """
         results = self.execute_update(sql, (price, id))
         return results[0] if results else None
+    def update_pair(self, id: int, pair: str) -> Optional[Dict[str, Any]]:
+        """更新指定ID的pair
+        
+        Args:
+            id (int): 记录ID
+            pair (str): 交易对名称，将以text类型存储
+                
+        Returns:
+            Optional[Dict[str, Any]]: 更新后的记录，如果更新失败返回None
+            
+        Example:
+            >>> db = EasyQuery()
+            >>> result = db.update_pair(4696, "WETH/USDT")
+            >>> if result:
+            ...     print(f"Updated pair for record {result['id']}")
+        """
+        sql = """
+            UPDATE public.signal_summary 
+            SET pair = %s::text
+            WHERE id = %s
+            RETURNING id, pair;
+        """
+        results = self.execute_update(sql, (pair, id))
+        return results[0] if results else None
+    def update_field(self, id: int, field: str, value: Any, field_type: str = None) -> Optional[Dict[str, Any]]:
+        """通用字段更新方法
+        
+        Args:
+            id (int): 记录ID
+            field (str): 要更新的字段名
+            value (Any): 新的字段值
+            field_type (str, optional): 字段类型（如 'text', 'numeric'），如果不指定则不进行类型转换
+                
+        Returns:
+            Optional[Dict[str, Any]]: 更新后的记录，如果更新失败返回None
+            
+        Example:
+            >>> db = EasyQuery()
+            >>> # 更新 pair 字段
+            >>> db.update_field(4696, "pair", "WETH/USDT", "text")
+            >>> # 更新 price 字段
+            >>> db.update_field(4696, "price", "123.456", "numeric")
+            >>> # 更新 technical_notes 字段
+            >>> db.update_field(4696, "technical_notes", "分析内容")
+        """
+        type_cast = f"::{field_type}" if field_type else ""
+        sql = f"""
+            UPDATE public.signal_summary 
+            SET {field} = %s{type_cast}
+            WHERE id = %s
+            RETURNING id, {field};
+        """
+        results = self.execute_update(sql, (value, id))
+        return results[0] if results else None
 
 # 使用示例
 if __name__ == "__main__":
