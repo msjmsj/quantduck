@@ -4,7 +4,7 @@ import pandas as pd
 import logging
 
 # 设置日志
-logging.basicConfig(level=logging.INFO)
+
 logger = logging.getLogger(__name__)
 
 class KlineValidator(Protocol):
