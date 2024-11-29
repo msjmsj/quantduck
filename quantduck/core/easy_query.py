@@ -292,6 +292,56 @@ class EasyQuery:
         results = self.execute_update(sql, (value, id))
         return results[0] if results else None
 
+    def insert_pair_if_not_exists(self, pair: str, **optional_fields) -> Optional[Dict[str, Any]]:
+        """检查并插入pair信息，如果24小时内不存在该pair则插入新记录
+        
+        Args:
+            pair (str): 交易对名称（必需）
+            **optional_fields: 可选字段，如：
+                - address: str
+                - price: str
+                - technical_notes: str
+                - technical_status: str
+                - 其他signal_summary表支持的字段
+            
+        Returns:
+            Optional[Dict[str, Any]]: 插入的记录，如果pair已存在返回None
+        """
+        # 构建字段列表和值列表
+        fields = ['pair', 'detected_time']
+        placeholders = ['%s', "NOW() AT TIME ZONE 'Asia/Shanghai'"]
+        params = [pair]
+        
+        # 添加可选字段
+        for field, value in optional_fields.items():
+            fields.append(field)
+            placeholders.append('%s')
+            params.append(value)
+            
+        # 构建SQL语句
+        fields_str = ', '.join(fields)
+        values_str = ', '.join(placeholders)
+        
+        sql = f"""
+            WITH new_record AS (
+                INSERT INTO public.signal_summary ({fields_str})
+                SELECT {values_str}
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM signal_summary 
+                    WHERE pair = %s 
+                    AND detected_time > (NOW() AT TIME ZONE 'Asia/Shanghai' - INTERVAL '24 hours')
+                )
+                RETURNING id, {fields_str}
+            )
+            SELECT * FROM new_record;
+        """
+        
+        # 添加WHERE条件的参数
+        params.append(pair)
+        
+        results = self.execute_update(sql, tuple(params))
+        return results[0] if results else None
+
 # 使用示例
 if __name__ == "__main__":
     db = EasyQuery()
@@ -343,5 +393,18 @@ if __name__ == "__main__":
             print(f"Successfully updated price for ID {update_result['id']}")
             print(f"New price: {update_result['price']}")
             
+        # 测试插入pair信息
+        test_pair = "0x081d5e9116b9052b490a7170a18d87e4b8a84279"
+        insert_result = db.insert_pair_if_not_exists(
+            test_pair,
+            price="0.00234",
+            source="uniswap_v2",
+            plan="ETH"
+        )
+        if insert_result:
+            print(f"Successfully inserted pair {test_pair}")
+            print(f"Price: {insert_result['price']}, Source: {insert_result['source']}")
+        else:
+            print(f"Pair {test_pair} already exists")
     finally:
         db.close() 
