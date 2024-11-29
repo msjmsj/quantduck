@@ -293,11 +293,12 @@ class EasyQuery:
         results = self.execute_update(sql, (value, id))
         return results[0] if results else None
 
-    def insert_pair_if_not_exists(self, pair: str, **optional_fields) -> Optional[Dict[str, Any]]:
+    def insert_pair_if_not_exists(self, pair: str, detected_time: Optional[datetime] = None, **optional_fields) -> Optional[Dict[str, Any]]:
         """检查并插入pair信息，如果24小时内不存在该pair则插入新记录
         
         Args:
             pair (str): 交易对名称（必需）
+            detected_time (datetime, optional): 检测时间，如果不指定则使用当前时间
             **optional_fields: 可选字段，如：
                 - address: str
                 - price: str
@@ -307,11 +308,21 @@ class EasyQuery:
             
         Returns:
             Optional[Dict[str, Any]]: 插入的记录，如果pair存在返回None
+            
+        Example:
+            >>> from datetime import datetime
+            >>> db = EasyQuery()
+            >>> time = datetime(2024, 1, 1, 12, 0, 0)  # 2024年1月1日12:00:00
+            >>> result = db.insert_pair_if_not_exists("WETH/USDT", detected_time=time)
         """
         # 构建字段列表和值列表
         fields = ['pair', 'detected_time']
-        placeholders = ['%s', "(CURRENT_TIMESTAMP::timestamptz AT TIME ZONE 'Asia/Shanghai')"]
-        params = [pair]
+        if detected_time is not None:
+            placeholders = ['%s', '%s']
+            params = [pair, detected_time]
+        else:
+            placeholders = ['%s', "(CURRENT_TIMESTAMP::timestamptz AT TIME ZONE 'Asia/Shanghai')"]
+            params = [pair]
         
         # 添加可选字段
         for field, value in optional_fields.items():
@@ -396,8 +407,13 @@ if __name__ == "__main__":
             
         # 测试插入pair信息
         test_pair = "0x081d5e9116b9052b490a7170a18d87e4b8a84277"
+        cn_timezone = pytz.timezone('Asia/Shanghai')
+        current_time = datetime.now(cn_timezone)
+        print(f"Attempting to insert with China time: {current_time}")
+        
         insert_result = db.insert_pair_if_not_exists(
             test_pair,
+            detected_time=current_time,
             price="0.00234",
             source="uniswap_v2",
             platform="ETH",
@@ -405,6 +421,7 @@ if __name__ == "__main__":
         )
         if insert_result:
             print(f"Successfully inserted pair {test_pair}")
+            print(f"Stored time (China): {insert_result['detected_time']}")
             print(f"Price: {insert_result['price']}, Source: {insert_result['source']}")
         else:
             print(f"Pair {test_pair} already exists")
