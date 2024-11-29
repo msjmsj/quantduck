@@ -92,7 +92,8 @@ class EasyQuery:
         # 设置时区
         with self.pool.getconn() as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SET timezone='Asia/Shanghai'")
+                cursor.execute("SET timezone TO 'Asia/Shanghai'")
+                cursor.execute("SET datestyle TO 'ISO, YMD'")
             conn.commit()
         self.pool.putconn(conn)
     
@@ -305,11 +306,11 @@ class EasyQuery:
                 - 其他signal_summary表支持的字段
             
         Returns:
-            Optional[Dict[str, Any]]: 插入的记录，如果pair已存在返回None
+            Optional[Dict[str, Any]]: 插入的记录，如果pair��存在返回None
         """
         # 构建字段列表和值列表
         fields = ['pair', 'detected_time']
-        placeholders = ['%s', "(NOW() AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Shanghai')"]
+        placeholders = ['%s', "CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Shanghai'"]
         params = [pair]
         
         # 添加可选字段
