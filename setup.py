@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="quantduck",
-    version="0.1.22",
+    version="0.1.24",
     packages=find_packages(),
     python_requires=">=3.8,<3.12",
     install_requires=[

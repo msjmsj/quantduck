@@ -309,7 +309,7 @@ class EasyQuery:
         """
         # 构建字段列表和值列表
         fields = ['pair', 'detected_time']
-        placeholders = ['%s', "NOW() AT TIME ZONE 'Asia/Shanghai'"]
+        placeholders = ['%s', "(NOW() AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Shanghai')"]
         params = [pair]
         
         # 添加可选字段
@@ -329,7 +329,7 @@ class EasyQuery:
                 WHERE NOT EXISTS (
                     SELECT 1 FROM signal_summary 
                     WHERE pair = %s 
-                    AND detected_time > (NOW() AT TIME ZONE 'Asia/Shanghai' - INTERVAL '24 hours')
+                    AND detected_time > ((NOW() AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Shanghai') - INTERVAL '24 hours')
                 )
                 RETURNING id, {fields_str}
             )
