@@ -3,14 +3,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="quantduck",
-    version="0.1.21",
+    version="0.1.22",
     packages=find_packages(),
+    python_requires=">=3.8,<3.12",
     install_requires=[
-        "psycopg2-binary",
+        "psycopg2-binary>=2.9.0",
         "pytz",
-        "pandas",
     ],
-    description="A quantitative analysis library",
-    author="Your Name",
-    author_email="your.email@example.com",
 ) 

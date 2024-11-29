@@ -394,12 +394,13 @@ if __name__ == "__main__":
             print(f"New price: {update_result['price']}")
             
         # 测试插入pair信息
-        test_pair = "0x081d5e9116b9052b490a7170a18d87e4b8a84279"
+        test_pair = "0x081d5e9116b9052b490a7170a18d87e4b8a84277"
         insert_result = db.insert_pair_if_not_exists(
             test_pair,
             price="0.00234",
             source="uniswap_v2",
-            plan="ETH"
+            platform="ETH",
+            dex_info="true"
         )
         if insert_result:
             print(f"Successfully inserted pair {test_pair}")
