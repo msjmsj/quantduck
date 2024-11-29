@@ -116,7 +116,7 @@ class EasyQuery:
     @query_method("""
         SELECT *
         FROM signal_summary
-        WHERE detected_time > (NOW() AT TIME ZONE 'Asia/Shanghai' - INTERVAL '{hours} hours')
+        WHERE detected_time > (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Shanghai' - INTERVAL '{hours} hours')
         ORDER BY detected_time DESC
     """)
     def get_recent_signals(self, hours: int = 24) -> QueryResult:
@@ -127,7 +127,7 @@ class EasyQuery:
         SELECT *
         FROM signal_summary
         WHERE address = '{token_address}'
-        AND detected_time > (NOW() AT TIME ZONE 'Asia/Shanghai' - INTERVAL '{hours} hours')
+        AND detected_time > (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Shanghai' - INTERVAL '{hours} hours')
     """)
     def get_token_signals(self, token_address: str, hours: int = 24) -> QueryResult:
         """获取特定代币的信号"""
@@ -306,11 +306,11 @@ class EasyQuery:
                 - 其他signal_summary表支持的字段
             
         Returns:
-            Optional[Dict[str, Any]]: 插入的记录，如果pair��存在返回None
+            Optional[Dict[str, Any]]: 插入的记录，如果pair存在返回None
         """
         # 构建字段列表和值列表
         fields = ['pair', 'detected_time']
-        placeholders = ['%s', "CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Shanghai'"]
+        placeholders = ['%s', "(CURRENT_TIMESTAMP::timestamptz AT TIME ZONE 'Asia/Shanghai')"]
         params = [pair]
         
         # 添加可选字段
@@ -330,7 +330,7 @@ class EasyQuery:
                 WHERE NOT EXISTS (
                     SELECT 1 FROM signal_summary 
                     WHERE pair = %s 
-                    AND detected_time > ((NOW() AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Shanghai') - INTERVAL '24 hours')
+                    AND detected_time > (CURRENT_TIMESTAMP::timestamptz AT TIME ZONE 'Asia/Shanghai' - INTERVAL '24 hours')
                 )
                 RETURNING id, {fields_str}
             )
